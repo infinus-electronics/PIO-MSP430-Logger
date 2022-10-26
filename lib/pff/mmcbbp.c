@@ -346,7 +346,7 @@ DRESULT disk_readp (
 /*-----------------------------------------------------------------------*/
 /* Write partial sector                                                  */
 /*-----------------------------------------------------------------------*/
-#if _USE_WRITE
+// #if _USE_WRITE
 
 DRESULT disk_writep (
 	const BYTE *buff,	/* Pointer to the bytes to be written (NULL:Initiate/Finalize sector write) */
@@ -389,4 +389,4 @@ DRESULT disk_writep (
 
 	return res;
 }
-#endif
+// #endif
