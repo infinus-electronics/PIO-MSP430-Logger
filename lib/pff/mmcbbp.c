@@ -30,8 +30,8 @@
 /*-------------------------------------------------------------------------*/
 
 #include <msp430g2452.h>		/* Include hardware specific declareation file here */
-#include <uart.h>
-#include <stdio.h>
+// #include <uart.h>
+// #include <stdio.h>
 
 #define	INIT_PORT()	init_port()	/* Initialize MMC control port (CS/CLK/DI:output, DO:input) */
 #define DLY_US(n)	__delay_cycles(16L*n)	/* Delay n microseconds */
