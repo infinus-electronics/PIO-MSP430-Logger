@@ -11,6 +11,21 @@
  * main.c
  */
 
+
+// static void put_rc (FRESULT rc)
+// {
+// 	const char *p;
+// 	static const char str[] =
+// 		"OK\0" "DISK_ERR\0" "NOT_READY\0" "NO_FILE\0" "NO_PATH\0"
+// 		"NOT_OPENED\0" "NOT_ENABLED\0" "NO_FILE_SYSTEM\0";
+// 	FRESULT i;
+
+// 	for (p = str, i = 0; i != rc && pgm_read_byte_near(p); i++) {
+// 		while (pgm_read_byte_near(p++)) ;
+// 	}
+// 	xprintf(PSTR("rc=%u FR_%S\n"), (WORD)rc, p);
+// }
+
 int main(void)
 {
     WDTCTL = WDTPW | WDTHOLD; // stop watchdog timer
@@ -24,7 +39,7 @@ int main(void)
     P1OUT |= 0x01; // turn on LED to signal life
 
     char *ptr;
-    char outstr[128]; //line buffer
+    char outstr[64] = ""; //line buffer
 	long p1, p2;
 	BYTE res;
 	UINT s1, s2, s3, ofs, cnt, w;
@@ -32,10 +47,17 @@ int main(void)
 	DIR dir;			/* Directory object */
 	FILINFO fno;		/* File information */
 
+    uart_init();
+
     uart_puts("\nPFF test monitor\n");
     res = disk_initialize();
-    sprintf(outstr, "rc=%d\n", res);
+    snprintf(outstr, 6, "rc=%d\n", res);
     uart_puts(outstr);
+
+    res = pf_mount(&fs);
+    snprintf(outstr, 6, "mo=%d\n", res);
+    uart_puts(outstr);
+
 
 
 

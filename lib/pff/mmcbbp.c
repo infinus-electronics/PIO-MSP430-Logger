@@ -30,6 +30,8 @@
 /*-------------------------------------------------------------------------*/
 
 #include <msp430g2452.h>		/* Include hardware specific declareation file here */
+#include <uart.h>
+#include <stdio.h>
 
 #define	INIT_PORT()	init_port()	/* Initialize MMC control port (CS/CLK/DI:output, DO:input) */
 #define DLY_US(n)	__delay_cycles(16L*n)	/* Delay n microseconds */
@@ -214,7 +216,10 @@ BYTE send_cmd (
 	/* Receive a command response */
 	n = 10;								/* Wait for a valid response in timeout of 10 attempts */
 	do {
+		// char outstrs[32] = "";
 		res = rcvr_mmc();
+		// snprintf(outstrs, 9, "SPI:%d\n", res);
+		// uart_puts(outstrs);
 	} while ((res & 0x80) && --n);
 
 	return res;			/* Return with the response value */
@@ -320,7 +325,7 @@ DRESULT disk_readp (
 			} else {	/* Forward data to the outgoing stream */
 				do {
 					d = rcvr_mmc();
-					FORWARD(d);
+					// FORWARD(d);
 				} while (--count);
 			}
 
