@@ -1,30 +1,16 @@
+#define DEBUG
+
 #include <msp430g2452.h>
 
 #include <stdint.h>
 #include <stdio.h>
 #include <spi.h>
 #include <uart.h>
+#include <stdlib.h>
 
 #include <pff.h>
 
-/**
- * main.c
- */
-
-// static void put_rc (FRESULT rc)
-// {
-// 	const char *p;
-// 	static const char str[] =
-// 		"OK\0" "DISK_ERR\0" "NOT_READY\0" "NO_FILE\0" "NO_PATH\0"
-// 		"NOT_OPENED\0" "NOT_ENABLED\0" "NO_FILE_SYSTEM\0";
-// 	FRESULT i;
-
-// 	for (p = str, i = 0; i != rc && pgm_read_byte_near(p); i++) {
-// 		while (pgm_read_byte_near(p++)) ;
-// 	}
-// 	xprintf(PSTR("rc=%u FR_%S\n"), (WORD)rc, p);
-// }
-
+#ifdef DEBUG
 void debugLED(int8_t code)
 {
     int i = 0;
@@ -40,6 +26,7 @@ void debugLED(int8_t code)
     P1OUT &= ~0x01;
     __delay_cycles(2000000);
 }
+#endif
 
 int main(void)
 {
@@ -50,9 +37,11 @@ int main(void)
     DCOCTL = CALDCO_16MHZ;  // SMCLK = DCO = 16MHz
 
     P1DIR |= (1 | 1 << 6); // set LED at P1.0 to output and MOSI to output
+    P1OUT &= ~0x01;
 
     char *ptr;
-    char outstr[64] = ""; // line buffer
+    // char outstr[64]; // line buffer
+    char *outstr = malloc(128); //for some reason it needs this malloc to work???
     long p1, p2;
     BYTE res = 0;
     UINT s1, s2, s3, ofs, cnt, w;
@@ -60,11 +49,11 @@ int main(void)
     DIR dir;     /* Directory object */
     FILINFO fno; /* File information */
 
+    #ifdef DEBUG
     uart_init();
 
     uart_puts("\nPFF test monitor\n");
     res = disk_initialize();
-    debugLED((int8_t)res);
     uart_putc(res+48);
     uart_puts("\n");
     
@@ -97,10 +86,26 @@ int main(void)
     uart_puts("\n");
 
     pf_lseek(128);
+    int k;
+    if (res){
+        for ( k = 0; k < 128; k++)
+    {
+        *(outstr+k) = 0x41;/* code */
+    }
+    }
+    else{
+        for ( k = 0; k < 128; k++)
+    {
+        *(outstr+k) = 0x40;/* code */
+    }
+    }
+    
+    uart_puts(outstr);
+    
 
     uart_puts("\nFile Write Test\n");
 
-    res = pf_write("ABCD", 5, &w);
+    res = pf_write(outstr, 128, &w);
     pf_write(0, 0, &w);
     uart_putc(res+48);
     uart_puts("\n");
@@ -110,6 +115,8 @@ int main(void)
     pf_write(0, 0, &w);
     uart_putc(res+48);
     uart_puts("\n");
+
+    #endif
 
 
 
