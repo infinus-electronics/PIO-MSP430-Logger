@@ -22,6 +22,7 @@
 
 
 #include "diskio.h"
+#include "spi.h"
 
 
 /*-------------------------------------------------------------------------*/
@@ -31,16 +32,16 @@
 #include <msp430g2452.h>		/* Include hardware specific declareation file here */
 
 #define	INIT_PORT()	init_port()	/* Initialize MMC control port (CS/CLK/DI:output, DO:input) */
-#define DLY_US(n)	dly_us(n)	/* Delay n microseconds */
+#define DLY_US(n)	__delay_cycles(16L*n)	/* Delay n microseconds */
 #define	FORWARD(d)	forward(d)	/* Data in-time processing function (depends on the project) */
 
-#define	CS_H()		bset(P0)	/* Set MMC CS "high" */
-#define CS_L()		bclr(P0)	/* Set MMC CS "low" */
-#define CK_H()		bset(P1)	/* Set MMC SCLK "high" */
-#define	CK_L()		bclr(P1)	/* Set MMC SCLK "low" */
-#define DI_H()		bset(P2)	/* Set MMC DI "high" */
-#define DI_L()		bclr(P2)	/* Set MMC DI "low" */
-#define DO			btest(P3)	/* Test MMC DO (high:true, low:false) */
+#define	CS_H()		P2OUT|=1<<3	/* Set MMC CS "high" */
+#define CS_L()		P2OUT&=~(1<<3)	/* Set MMC CS "low" */
+// #define CK_H()		bset(P1)	/* Set MMC SCLK "high" */
+// #define	CK_L()		bclr(P1)	/* Set MMC SCLK "low" */
+// #define DI_H()		bset(P2)	/* Set MMC DI "high" */
+// #define DI_L()		bclr(P2)	/* Set MMC DI "low" */
+// #define DO			btest(P3)	/* Test MMC DO (high:true, low:false) */
 
 
 
@@ -71,7 +72,12 @@
 
 
 static
-BYTE CardType;			/* b0:MMC, b1:SDv1, b2:SDv2, b3:Block addressing */
+BYTE CardType;			/* b0:MMC, b1:SDv1, b2:SDv2, b3:Block addressing */ 
+
+static void init_port(){
+	SPIInit();
+	P2DIR |= 1 << 3; //set CS to output
+}
 
 
 
@@ -84,22 +90,24 @@ void xmit_mmc (
 	BYTE d			/* Data to be sent */
 )
 {
-	if (d & 0x80) DI_H(); else DI_L();	/* bit7 */
-	CK_H(); CK_L();
-	if (d & 0x40) DI_H(); else DI_L();	/* bit6 */
-	CK_H(); CK_L();
-	if (d & 0x20) DI_H(); else DI_L();	/* bit5 */
-	CK_H(); CK_L();
-	if (d & 0x10) DI_H(); else DI_L();	/* bit4 */
-	CK_H(); CK_L();
-	if (d & 0x08) DI_H(); else DI_L();	/* bit3 */
-	CK_H(); CK_L();
-	if (d & 0x04) DI_H(); else DI_L();	/* bit2 */
-	CK_H(); CK_L();
-	if (d & 0x02) DI_H(); else DI_L();	/* bit1 */
-	CK_H(); CK_L();
-	if (d & 0x01) DI_H(); else DI_L();	/* bit0 */
-	CK_H(); CK_L();
+	// if (d & 0x80) DI_H(); else DI_L();	/* bit7 */
+	// CK_H(); CK_L();
+	// if (d & 0x40) DI_H(); else DI_L();	/* bit6 */
+	// CK_H(); CK_L();
+	// if (d & 0x20) DI_H(); else DI_L();	/* bit5 */
+	// CK_H(); CK_L();
+	// if (d & 0x10) DI_H(); else DI_L();	/* bit4 */
+	// CK_H(); CK_L();
+	// if (d & 0x08) DI_H(); else DI_L();	/* bit3 */
+	// CK_H(); CK_L();
+	// if (d & 0x04) DI_H(); else DI_L();	/* bit2 */
+	// CK_H(); CK_L();
+	// if (d & 0x02) DI_H(); else DI_L();	/* bit1 */
+	// CK_H(); CK_L();
+	// if (d & 0x01) DI_H(); else DI_L();	/* bit0 */
+	// CK_H(); CK_L();
+
+	SPITransfer(d);
 }
 
 
@@ -111,29 +119,30 @@ void xmit_mmc (
 static
 BYTE rcvr_mmc (void)
 {
-	BYTE r;
+	// BYTE r;
 
 
-	DI_H();	/* Send 0xFF */
+	// DI_H();	/* Send 0xFF */
 
-	r = 0;   if (DO) r++;	/* bit7 */
-	CK_H(); CK_L();
-	r <<= 1; if (DO) r++;	/* bit6 */
-	CK_H(); CK_L();
-	r <<= 1; if (DO) r++;	/* bit5 */
-	CK_H(); CK_L();
-	r <<= 1; if (DO) r++;	/* bit4 */
-	CK_H(); CK_L();
-	r <<= 1; if (DO) r++;	/* bit3 */
-	CK_H(); CK_L();
-	r <<= 1; if (DO) r++;	/* bit2 */
-	CK_H(); CK_L();
-	r <<= 1; if (DO) r++;	/* bit1 */
-	CK_H(); CK_L();
-	r <<= 1; if (DO) r++;	/* bit0 */
-	CK_H(); CK_L();
+	// r = 0;   if (DO) r++;	/* bit7 */
+	// CK_H(); CK_L();
+	// r <<= 1; if (DO) r++;	/* bit6 */
+	// CK_H(); CK_L();
+	// r <<= 1; if (DO) r++;	/* bit5 */
+	// CK_H(); CK_L();
+	// r <<= 1; if (DO) r++;	/* bit4 */
+	// CK_H(); CK_L();
+	// r <<= 1; if (DO) r++;	/* bit3 */
+	// CK_H(); CK_L();
+	// r <<= 1; if (DO) r++;	/* bit2 */
+	// CK_H(); CK_L();
+	// r <<= 1; if (DO) r++;	/* bit1 */
+	// CK_H(); CK_L();
+	// r <<= 1; if (DO) r++;	/* bit0 */
+	// CK_H(); CK_L();
 
-	return r;
+	// return r;
+	return (BYTE)(SPITransfer(0xFF));
 }
 
 
@@ -147,17 +156,10 @@ void skip_mmc (
 	UINT n		/* Number of bytes to skip */
 )
 {
-	DI_H();	/* Send 0xFF */
+	// DI_H();	/* Send 0xFF */
 
 	do {
-		CK_H(); CK_L();
-		CK_H(); CK_L();
-		CK_H(); CK_L();
-		CK_H(); CK_L();
-		CK_H(); CK_L();
-		CK_H(); CK_L();
-		CK_H(); CK_L();
-		CK_H(); CK_L();
+		SPITransfer(0xff);
 	} while (--n);
 }
 

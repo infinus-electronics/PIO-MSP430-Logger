@@ -31,7 +31,7 @@ typedef enum {
 /* Prototypes for disk control functions */
 
 DSTATUS disk_initialize (void);
-DRESULT disk_readp (BYTE*, DWORD, WORD, WORD);
+DRESULT disk_readp (BYTE*, DWORD, UINT, UINT);
 DRESULT disk_writep (const BYTE*, DWORD);
 
 
