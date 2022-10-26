@@ -17,8 +17,8 @@ int main(void)
     WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 
     // BCSCTL1 |= 0b1111; // select 16MHz mode
-    BCSCTL1 = CALBC1_1MHZ;			// Set range
-	DCOCTL = CALDCO_1MHZ;			// SMCLK = DCO = 1MHz  
+    BCSCTL1 = CALBC1_16MHZ;			// Set range
+	DCOCTL = CALDCO_16MHZ;			// SMCLK = DCO = 1MHz  
 
     P1DIR |= (1 | 1 << 6); //set LED at P1.0 to output and MOSI to output
     P2DIR |= 1 << 3; //set CS to output

@@ -51,7 +51,7 @@
 /**
  * CPU freq.
  */
-#define FCPU 			1000000
+#define FCPU 			16000000
 
 /**
  * Baudrate
