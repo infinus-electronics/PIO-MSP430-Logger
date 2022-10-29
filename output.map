@@ -4,6 +4,8 @@ Archive member included because of file (symbol)
                               .pio\build\lpmsp430g2452\src\main.o (pf_mount)
 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
                               .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o) (disk_initialize)
+.pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+                              .pio\build\lpmsp430g2452\src\main.o (uart_init)
 .pio\build\lpmsp430g2452\lib116\libspi.a(spi.o)
                               .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o) (SPIInit)
 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libgcc.a(_mulsi3.o)
@@ -45,6 +47,11 @@ Discarded input sections
  .text          0x00000000        0x0 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
  .data          0x00000000        0x0 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
  .bss           0x00000000        0x0 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
+ .text          0x00000000        0x0 .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+ .data          0x00000000        0x0 .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+ .bss           0x00000000        0x0 .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+ .text.uart_getc
+                0x00000000       0x1c .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
  .text          0x00000000        0x0 .pio\build\lpmsp430g2452\lib116\libspi.a(spi.o)
  .data          0x00000000        0x0 .pio\build\lpmsp430g2452\lib116\libspi.a(spi.o)
  .bss           0x00000000        0x0 .pio\build\lpmsp430g2452\lib116\libspi.a(spi.o)
@@ -113,6 +120,7 @@ LOAD .pio\build\lpmsp430g2452\src\main.o
 START GROUP
 LOAD .pio\build\lpmsp430g2452\lib116\libspi.a
 LOAD .pio\build\lpmsp430g2452\lib1d2\libpff.a
+LOAD .pio\build\lpmsp430g2452\lib4c9\libuart.a
 LOAD c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3/../../../../msp430/lib\libm.a
 END GROUP
 LOAD c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libgcc.a
@@ -267,7 +275,7 @@ LOAD c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp43
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000e000     0x12d0
+.text           0x0000e000     0x147a
                 0x0000e000                . = ALIGN (0x2)
  *(.init .init.*)
  *(.init0)
@@ -292,11 +300,11 @@ LOAD c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp43
  *(.init7)
  *(.init8)
  *(.init9)
- .init9         0x0000e03e       0xd0 .pio\build\lpmsp430g2452\src\main.o
+ .init9         0x0000e03e       0xfc .pio\build\lpmsp430g2452\src\main.o
                 0x0000e03e                main
  *(.fini9)
- .fini9         0x0000e10e        0x0 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libcrt0.a(__stop_progExec__.o)
-                0x0000e10e                __stop_progExec__
+ .fini9         0x0000e13a        0x0 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libcrt0.a(__stop_progExec__.o)
+                0x0000e13a                __stop_progExec__
  *(.fini8)
  *(.fini7)
  *(.fini6)
@@ -306,135 +314,155 @@ LOAD c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp43
  *(.fini2)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000e10e        0x6 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libcrt0.a(_endless_loop__.o)
-                0x0000e10e                _endless_loop__
+ .fini0         0x0000e13a        0x6 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libcrt0.a(_endless_loop__.o)
+                0x0000e13a                _endless_loop__
  *(.fini .fini.*)
-                0x0000e114                . = ALIGN (0x2)
-                0x0000e114                __ctors_start = .
+                0x0000e140                . = ALIGN (0x2)
+                0x0000e140                __ctors_start = .
  *(.ctors)
-                0x0000e114                __ctors_end = .
-                0x0000e114                __dtors_start = .
+                0x0000e140                __ctors_end = .
+                0x0000e140                __dtors_start = .
  *(.dtors)
-                0x0000e114                __dtors_end = .
-                0x0000e114                . = ALIGN (0x2)
+                0x0000e140                __dtors_end = .
+                0x0000e140                . = ALIGN (0x2)
  *(.text .text.* .gnu.linkonce.t.*)
- .text          0x0000e114        0x4 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3/crt0ivtbl16.o
-                0x0000e114                __isr_14
-                0x0000e114                __isr_4
-                0x0000e114                __isr_11
-                0x0000e114                __isr_5
-                0x0000e114                __isr_2
-                0x0000e114                __isr_10
-                0x0000e114                __isr_7
-                0x0000e114                __isr_0
-                0x0000e114                __isr_8
-                0x0000e114                __isr_3
-                0x0000e114                __isr_12
-                0x0000e114                __isr_13
-                0x0000e114                __isr_9
-                0x0000e114                __isr_6
-                0x0000e114                __isr_1
+ .text          0x0000e140        0x4 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3/crt0ivtbl16.o
+                0x0000e140                __isr_14
+                0x0000e140                __isr_4
+                0x0000e140                __isr_11
+                0x0000e140                __isr_5
+                0x0000e140                __isr_10
+                0x0000e140                __isr_7
+                0x0000e140                __isr_0
+                0x0000e140                __isr_8
+                0x0000e140                __isr_3
+                0x0000e140                __isr_12
+                0x0000e140                __isr_13
+                0x0000e140                __isr_6
+                0x0000e140                __isr_1
  .text.ld_dword
-                0x0000e118       0x50 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
+                0x0000e144       0x50 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
  .text.clust2sect
-                0x0000e168       0x3e .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
+                0x0000e194       0x3e .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
  .text.dir_rewind
-                0x0000e1a6       0x76 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
- .text.get_fat  0x0000e21c      0x17a .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
+                0x0000e1d2       0x76 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
+ .text.get_fat  0x0000e248      0x17a .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
  .text.check_fs
-                0x0000e396       0x94 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
+                0x0000e3c2       0x94 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
  .text.pf_mount
-                0x0000e42a      0x208 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
-                0x0000e42a                pf_mount
- .text.pf_open  0x0000e632      0x2f4 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
-                0x0000e632                pf_open
- .text.pf_read  0x0000e926      0x14a .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
-                0x0000e926                pf_read
+                0x0000e456      0x208 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
+                0x0000e456                pf_mount
+ .text.pf_open  0x0000e65e      0x2f4 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
+                0x0000e65e                pf_open
+ .text.pf_read  0x0000e952      0x14a .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
+                0x0000e952                pf_read
  .text.pf_write
-                0x0000ea70      0x196 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
-                0x0000ea70                pf_write
+                0x0000ea9c      0x196 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
+                0x0000ea9c                pf_write
  .text.pf_lseek
-                0x0000ec06      0x1a6 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
-                0x0000ec06                pf_lseek
+                0x0000ec32      0x1a6 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
+                0x0000ec32                pf_lseek
  .text.xmit_mmc
-                0x0000edac        0x6 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
+                0x0000edd8        0x6 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
  .text.rcvr_mmc
-                0x0000edb2        0x8 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
+                0x0000edde        0x8 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
  .text.send_cmd
-                0x0000edba       0x98 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
+                0x0000ede6       0x98 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
  .text.release_spi
-                0x0000ee52        0xa .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
+                0x0000ee7e        0xa .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
  .text.skip_mmc
-                0x0000ee5c       0x12 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
+                0x0000ee88       0x12 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
  .text.disk_initialize
-                0x0000ee6e      0x132 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
-                0x0000ee6e                disk_initialize
+                0x0000ee9a      0x132 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
+                0x0000ee9a                disk_initialize
  .text.disk_readp
-                0x0000efa0       0xaa .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
-                0x0000efa0                disk_readp
+                0x0000efcc       0xaa .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
+                0x0000efcc                disk_readp
  .text.disk_writep
-                0x0000f04a       0xd2 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
-                0x0000f04a                disk_writep
- .text.SPIInit  0x0000f11c       0x1c .pio\build\lpmsp430g2452\lib116\libspi.a(spi.o)
-                0x0000f11c                SPIInit
+                0x0000f076       0xd2 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
+                0x0000f076                disk_writep
+ .text.uart_init
+                0x0000f148       0x1a .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+                0x0000f148                uart_init
+ .text.uart_putc
+                0x0000f162       0x4a .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+                0x0000f162                uart_putc
+ .text.uart_puts
+                0x0000f1ac       0x1a .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+                0x0000f1ac                uart_puts
+ .text.PORT1_ISR
+                0x0000f1c6       0x38 .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+                0x0000f1c6                PORT1_ISR
+                0x0000f1c6                __isr_2
+ .text.Timer_A  0x0000f1fe       0xc8 .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+                0x0000f1fe                __isr_9
+                0x0000f1fe                Timer_A
+ .text.SPIInit  0x0000f2c6       0x1c .pio\build\lpmsp430g2452\lib116\libspi.a(spi.o)
+                0x0000f2c6                SPIInit
  .text.SPITransfer
-                0x0000f138       0x1a .pio\build\lpmsp430g2452\lib116\libspi.a(spi.o)
-                0x0000f138                SPITransfer
- .text.libgcc   0x0000f152       0x2c c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libgcc.a(_mulsi3.o)
-                0x0000f152                __mulsi3
- .text.libgcc   0x0000f17e       0x40 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libgcc.a(_udivmod32.o)
-                0x0000f17e                __ext_udivmod32
-                0x0000f17e                __udivsi3
-                0x0000f1b4                __umodsi3
- .text          0x0000f1be      0x110 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3/../../../../msp430/lib\libc.a(malloc.o)
-                0x0000f1be                malloc
-                0x0000f2c6                free
- .text.crt0     0x0000f2ce        0x2 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libcrt0.a(_unexpected_.o)
-                0x0000f2ce                _unexpected_
-                0x0000f2d0                . = ALIGN (0x2)
+                0x0000f2e2       0x1a .pio\build\lpmsp430g2452\lib116\libspi.a(spi.o)
+                0x0000f2e2                SPITransfer
+ .text.libgcc   0x0000f2fc       0x2c c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libgcc.a(_mulsi3.o)
+                0x0000f2fc                __mulsi3
+ .text.libgcc   0x0000f328       0x40 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libgcc.a(_udivmod32.o)
+                0x0000f328                __ext_udivmod32
+                0x0000f328                __udivsi3
+                0x0000f35e                __umodsi3
+ .text          0x0000f368      0x110 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3/../../../../msp430/lib\libc.a(malloc.o)
+                0x0000f368                malloc
+                0x0000f470                free
+ .text.crt0     0x0000f478        0x2 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libcrt0.a(_unexpected_.o)
+                0x0000f478                _unexpected_
+                0x0000f47a                . = ALIGN (0x2)
 
-.rodata         0x0000f2d0       0x8a
-                0x0000f2d0                . = ALIGN (0x2)
+.rodata         0x0000f47a       0xde
+                0x0000f47a                . = ALIGN (0x2)
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata        0x0000f2d0        0x9 .pio\build\lpmsp430g2452\src\main.o
+ .rodata        0x0000f47a       0x5d .pio\build\lpmsp430g2452\src\main.o
  .rodata.cvt.1409
-                0x0000f2d9       0x80 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
-                0x0000f35a                . = ALIGN (0x2)
- *fill*         0x0000f359        0x1 00
-                0x0000f35a                _etext = .
+                0x0000f4d7       0x80 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
+                0x0000f558                . = ALIGN (0x2)
+ *fill*         0x0000f557        0x1 00
+                0x0000f558                _etext = .
 
-.data           0x00000200        0x0 load address 0x0000f35a
+.data           0x00000200        0x0 load address 0x0000f558
                 0x00000200                . = ALIGN (0x2)
                 0x00000200                PROVIDE (__data_start, .)
  *(.data .data.* .gnu.linkonce.d.*)
                 0x00000200                . = ALIGN (0x2)
                 0x00000200                _edata = .
-                0x0000f35a                PROVIDE (__data_load_start, LOADADDR (.data))
+                0x0000f558                PROVIDE (__data_load_start, LOADADDR (.data))
                 0x00000000                PROVIDE (__data_size, SIZEOF (.data))
 
-.bss            0x00000200        0x8 load address 0x0000f35a
+.bss            0x00000200        0xe load address 0x0000f558
                 0x00000200                PROVIDE (__bss_start, .)
  *(.bss .bss.*)
  .bss.FatFs     0x00000200        0x2 .pio\build\lpmsp430g2452\lib1d2\libpff.a(pff.o)
  .bss.CardType  0x00000202        0x1 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
  *fill*         0x00000203        0x1 00
  .bss.wc.1531   0x00000204        0x2 .pio\build\lpmsp430g2452\lib1d2\libpff.a(mmcbbp.o)
- .bss           0x00000206        0x1 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3/../../../../msp430/lib\libc.a(malloc.o)
+ .bss.hasReceived
+                0x00000206        0x1 .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+ .bss.isReceiving
+                0x00000207        0x1 .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+ .bss.RXByte    0x00000208        0x2 .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+ .bss.TXByte    0x0000020a        0x2 .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+ .bss.bitCount  0x0000020c        0x1 .pio\build\lpmsp430g2452\lib4c9\libuart.a(uart.o)
+ .bss           0x0000020d        0x1 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3/../../../../msp430/lib\libc.a(malloc.o)
  *(COMMON)
-                0x00000208                . = ALIGN (0x2)
- *fill*         0x00000207        0x1 00
-                0x00000208                PROVIDE (__bss_end, .)
-                0x00000008                PROVIDE (__bss_size, SIZEOF (.bss))
+                0x0000020e                . = ALIGN (0x2)
+                0x0000020e                PROVIDE (__bss_end, .)
+                0x0000000e                PROVIDE (__bss_size, SIZEOF (.bss))
 
-.noinit         0x00000208        0x2 load address 0x0000f35a
-                0x00000208                PROVIDE (__noinit_start, .)
+.noinit         0x0000020e        0x2 load address 0x0000f558
+                0x0000020e                PROVIDE (__noinit_start, .)
  *(.noinit .noinit.*)
- .noinit.crt0   0x00000208        0x2 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libcrt0.a(__watchdog_support.o)
-                0x00000208                __wdt_clear_value
-                0x0000020a                . = ALIGN (0x2)
-                0x0000020a                PROVIDE (__noinit_end, .)
-                0x0000020a                . = ALIGN (0x2)
-                0x0000020a                _end = .
+ .noinit.crt0   0x0000020e        0x2 c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3\libcrt0.a(__watchdog_support.o)
+                0x0000020e                __wdt_clear_value
+                0x00000210                . = ALIGN (0x2)
+                0x00000210                PROVIDE (__noinit_end, .)
+                0x00000210                . = ALIGN (0x2)
+                0x00000210                _end = .
 
 .infomem        0x00001000        0x0
  *(.infomem)
@@ -592,6 +620,6 @@ LOAD c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp43
  *(.debug_ranges)
  .debug_ranges  0x00000000        0xc c:/users/yehen/.platformio/packages/toolchain-timsp430/bin/../lib/gcc/msp430/4.6.3/../../../../msp430/lib\libc.a(malloc.o)
                 0x00000300                PROVIDE (__stack, (ORIGIN (ram) + 0x100))
-                0x0000f35a                PROVIDE (__data_start_rom, _etext)
-                0x0000f35a                PROVIDE (__data_end_rom, (_etext + SIZEOF (.data)))
+                0x0000f558                PROVIDE (__data_start_rom, _etext)
+                0x0000f558                PROVIDE (__data_end_rom, (_etext + SIZEOF (.data)))
 OUTPUT(.pio\build\lpmsp430g2452\firmware.elf elf32-msp430)

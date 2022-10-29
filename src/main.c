@@ -5,8 +5,8 @@
 #include <stdint.h>
 // #include <stdio.h>
 #include <spi.h>
-// #include <uart.h>
-#include <stdlib.h>
+#include <uart.h>
+// #include <stdlib.h>
 
 #include <pff.h>
 
@@ -50,7 +50,7 @@ int main(void)
     FILINFO fno; /* File information */
 
     // #ifdef DEBUG
-    // uart_init();
+    uart_init();
 
     // uart_puts("\nPFF test monitor\n");
     // res = disk_initialize();
@@ -58,19 +58,19 @@ int main(void)
     // uart_puts("\n");
     
 
-    // uart_puts("\nMounting Test\n");
+    uart_puts("\nMounting Test\n");
 
     res = (char)pf_mount(&fs);
     // uart_putc(res+48);
     // uart_puts("\n");
 
-    // uart_puts("\nFile Opening Test\n");
+    uart_puts("\nFile Opening Test\n");
 
     res = (char)pf_open("001");
     // uart_putc(res+48);
     // uart_puts("\n");
 
-    // uart_puts("\nFile Read Test\n");
+    uart_puts("\nFile Read Test\n");
 
     char data;
     res = pf_read(&data, 1, &s1);
@@ -79,7 +79,7 @@ int main(void)
     // uart_putc(data);
     // uart_puts("\n");
 
-    // uart_puts("\nlseek Test\n");
+    uart_puts("\nlseek Test\n");
 
     res = pf_lseek(3);
     // uart_putc(res+48);
@@ -88,22 +88,22 @@ int main(void)
     pf_lseek(128);
     int k;
     if (res){
-        for ( k = 0; k < 64; k++)
+        for ( k = 0; k < 128; k++)
     {
-        *(outstr+k) = 0x41;/* code */
+        *(outstr+k) = 0x42;/* code */
     }
     }
     else{
-        for ( k = 0; k < 64; k++)
+        for ( k = 0; k < 128; k++)
     {
-        *(outstr+k) = 0x40;/* code */
+        *(outstr+k) = 0x43;/* code */
     }
     }
     
     // uart_puts(outstr);
     
 
-    // uart_puts("\nFile Write Test\n");
+    uart_puts("\nFile Write Test\n");
 
     res = pf_write(outstr, 128, &w);
     pf_write(0, 0, &w);
